@@ -1,0 +1,50 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Initialize Repo clone",
+            "type": "shell",
+            "command": "${cwd}/.vscode/scripts/initialize-clone.bat",
+            "args": [
+                "${cwd}",
+                "${input:repo_name}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Update main branch in a clone",
+            "type": "shell",
+            "command": "${cwd}/.vscode/scripts/update-main-branch.bat",
+            "args": [
+                "${cwd}",
+                "${input:repo_name}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Add remote to a clone",
+            "type": "shell",
+            "command": "${cwd}/.vscode/scripts/add-remote.bat",
+            "args": [
+                "${cwd}",
+                "${input:remote_name}",
+                "${input:repo_name}"
+            ],
+            "problemMatcher": []
+        },
+    ],
+    "inputs": [
+        {
+            "id": "repo_name",
+            "description": "",
+            "default": "MaterialX",
+            "type": "promptString"
+        },
+        {
+            "id": "remote_name",
+            "description": "",
+            "default": "MustafaJafar",
+            "type": "promptString"
+        },
+    ]
+}
