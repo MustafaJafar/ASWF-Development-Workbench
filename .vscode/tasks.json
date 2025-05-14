@@ -32,6 +32,16 @@
             ],
             "problemMatcher": []
         },
+        {
+            "label": "Build Cmake",
+            "type": "shell",
+            "command": "${cwd}/.vscode/scripts/build-cmake.bat",
+            "args": [
+                "${cwd}",
+                "${input:repo_name}"
+            ],
+            "problemMatcher": []
+        },
     ],
     "inputs": [
         {

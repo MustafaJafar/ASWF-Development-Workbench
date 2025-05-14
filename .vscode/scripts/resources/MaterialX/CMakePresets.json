@@ -1,0 +1,22 @@
+{
+  "version": 3,
+    "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 23,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "generator": "Visual Studio 17 2022",
+      "description": "Default build configuration",
+      "hidden": false,
+      "binaryDir": "build",
+      "cacheVariables": {
+        "MATERIALX_BUILD_PYTHON": "ON",
+        "MATERIALX_BUILD_VIEWER": "ON",
+        "MATERIALX_BUILD_GRAPH_EDITOR": "ON"
+      }
+    }
+  ]
+}
