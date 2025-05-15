@@ -1,6 +1,20 @@
 {
     "version": "2.0.0",
     "tasks": [
+        // Launch Jupyter
+        {
+            "label": "Launch Jupyter",
+            "type": "shell",
+            "command": "",
+            "args": [
+                "cd",
+                "${cwd}/tmp",
+                "&&",
+                "jupyter",
+                "notebook"
+            ],
+            "problemMatcher": []
+        },
         {
             "label": "Initialize Repo clone",
             "type": "shell",
