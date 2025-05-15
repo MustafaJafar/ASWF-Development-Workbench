@@ -1,0 +1,9 @@
+__pycache__
+poetry.lock
+
+
+MaterialX/
+OpenColorIO/
+
+tmp/*
+!tmp/.gitkeep
