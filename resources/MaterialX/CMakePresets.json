@@ -13,6 +13,7 @@
       "hidden": false,
       "binaryDir": "build",
       "cacheVariables": {
+        "PYTHON_EXECUTABLE": "C:/.pyenv/pyenv-win/versions/3.11.9/python.exe",
         "MATERIALX_BUILD_PYTHON": "ON",
         "MATERIALX_BUILD_VIEWER": "ON",
         "MATERIALX_BUILD_GRAPH_EDITOR": "ON"

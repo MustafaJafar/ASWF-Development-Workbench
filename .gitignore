@@ -4,6 +4,12 @@ poetry.lock
 
 MaterialX/
 OpenColorIO/
+OpenAssetIO/
 
 tmp/*
 !tmp/.gitkeep
+# mani #
+OpenAssetIO
+OpenColorIO
+MaterialX
+# mani #

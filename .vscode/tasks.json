@@ -1,74 +1,47 @@
 {
+    // Thin wrappers over mani tasks (see mani.yaml), the single source of truth, also used by Claude via CLAUDE.md.
     "version": "2.0.0",
+    "options": { "cwd": "${workspaceFolder}" },
     "tasks": [
-        // Launch Jupyter
         {
             "label": "Launch Jupyter",
             "type": "shell",
-            "command": "",
-            "args": [
-                "cd",
-                "${cwd}/tmp",
-                "&&",
-                "jupyter",
-                "notebook"
-            ],
+            "command": "jupyter notebook --notebook-dir tmp",
             "problemMatcher": []
         },
         {
-            "label": "Initialize Repo clone",
+            "label": "Clone all repos",
             "type": "shell",
-            "command": "${cwd}/.vscode/scripts/initialize-clone.bat",
-            "args": [
-                "${cwd}",
-                "${input:repo_name}"
-            ],
+            "command": "mani sync && mani run submodules --all",
             "problemMatcher": []
         },
         {
-            "label": "Update main branch in a clone",
+            "label": "Update default branch in a clone",
             "type": "shell",
-            "command": "${cwd}/.vscode/scripts/update-main-branch.bat",
-            "args": [
-                "${cwd}",
-                "${input:repo_name}"
-            ],
+            "command": "mani run update-default -p ${input:repo_name}",
+            "problemMatcher": []
+        },
+        {
+            "label": "Update default branch in all clones",
+            "type": "shell",
+            "command": "mani run update-default --all",
             "problemMatcher": []
         },
         {
             "label": "Add remote to a clone",
             "type": "shell",
-            "command": "${cwd}/.vscode/scripts/add-remote.bat",
-            "args": [
-                "${cwd}",
-                "${input:remote_name}",
-                "${input:repo_name}"
-            ],
+            "command": "mani run add-remote -p ${input:repo_name} REMOTE=${input:remote_name}",
             "problemMatcher": []
         },
         {
             "label": "Build Cmake",
             "type": "shell",
-            "command": "${cwd}/.vscode/scripts/build-cmake.bat",
-            "args": [
-                "${cwd}",
-                "${input:repo_name}"
-            ],
+            "command": "mani run build-cmake -p ${input:repo_name}",
             "problemMatcher": []
-        },
+        }
     ],
     "inputs": [
-        {
-            "id": "repo_name",
-            "description": "",
-            "default": "MaterialX",
-            "type": "promptString"
-        },
-        {
-            "id": "remote_name",
-            "description": "",
-            "default": "MustafaJafar",
-            "type": "promptString"
-        },
+        { "id": "repo_name", "description": "", "default": "MaterialX", "type": "promptString" },
+        { "id": "remote_name", "description": "", "default": "MustafaJafar", "type": "promptString" }
     ]
 }

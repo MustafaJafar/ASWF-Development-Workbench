@@ -1,0 +1,70 @@
+# Workspace manifest. `mani sync` clones every project listed here.
+projects:
+  MaterialX:
+    desc: Open standard for exchanging rich material and look-development content (C++, Python, CMake)
+    url: https://github.com/AcademySoftwareFoundation/MaterialX.git
+    path: MaterialX
+    tags: [aswf, cpp, cmake]
+
+  OpenColorIO:
+    desc: Color management framework for VFX/animation (C++, Python, CMake)
+    url: https://github.com/AcademySoftwareFoundation/OpenColorIO.git
+    path: OpenColorIO
+    tags: [aswf, cpp, cmake]
+  OpenAssetIO:
+    desc: Open-source interoperability standard for tools and content management systems in media production (C++, Python, CMake)
+    url: https://github.com/OpenAssetIO/OpenAssetIO.git
+    path: OpenAssetIO
+    tags: [aswf, cpp, cmake]
+
+tasks:
+  status:
+    desc: Short git status + current branch
+    target:
+      all: true
+    cmd: git status -sb
+
+  remotes:
+    desc: List git remotes
+    target:
+      all: true
+    cmd: git remote -v
+
+  update-default:
+    desc: Checkout the default branch (main/develop/..., from origin/HEAD) and pull it; skips dirty repos
+    target:
+      all: true
+    cmd: |
+      if [ -n "$(git status --porcelain)" ]; then echo "dirty, skipped"; exit 0; fi
+      git remote set-head origin --auto >/dev/null 2>&1
+      branch=$(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's#^origin/##')
+      echo "default branch: $branch"
+      git checkout "$branch" && git pull origin "$branch"
+
+  submodules:
+    desc: Init/update submodules (mani sync does not use --recurse-submodules)
+    target:
+      all: true
+    cmd: git submodule update --init --recursive
+
+  add-remote:
+    desc: "Add a fork as a remote. Usage: mani run add-remote -p <repo> REMOTE=<github-user>"
+    env:
+      REMOTE: MustafaJafar
+    cmd: |
+      repo=$(basename "$PWD")
+      git remote add "$REMOTE" "https://github.com/$REMOTE/$repo.git" && echo "Remote '$REMOTE' added to $repo"
+
+  build-cmake:
+    desc: "DESTRUCTIVE (wipes build/). Configure + build with the 'default' CMake preset. Usage: mani run build-cmake -p <repo>"
+    shell: pwsh -Command
+    cmd: |
+      $repo = Split-Path -Leaf $PWD
+      $preset = "../resources/$repo/CMakePresets.json"
+      if (Test-Path $preset) { Copy-Item -Force $preset . }
+      if (Test-Path build) { Remove-Item -Recurse -Force build }
+      New-Item -ItemType Directory build | Out-Null
+      cmake --preset default
+      if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      cmake --build ./build
+      exit $LASTEXITCODE
